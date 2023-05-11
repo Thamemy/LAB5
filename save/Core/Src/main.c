@@ -153,11 +153,12 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+		HAL_GPIO_TogglePin(GPIOA, GPIO_Pin_0);
 		static uint32_t timestamp = 0;
 		if (HAL_GetTick() > timestamp) {
 
 			if (HZ > 0) {
-				HZ_Check = 500 / HZ;
+				HZ_Check = (1/HZ)*500;
 			}
 			else
 			{
@@ -189,7 +190,7 @@ int main(void)
 				RxBuffer[0] = 0;
 				state = 4;
 			}
-			else if(RxBuffer[0] != 0 )
+			else if(RxBuffer[0] != '0' && '1' )
 			{
 				HAL_Delay(5);
 				HAL_UART_Transmit_IT(&huart2, wrong_op, strlen((char*) wrong_op));
@@ -197,8 +198,6 @@ int main(void)
 				state = 1;
 			}
 			break;
-
-
 		case 2:
 			HAL_Delay(5);
 			HAL_UART_Transmit_IT(&huart2, Menu2, strlen((char*) Menu2));
